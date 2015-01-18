@@ -5,7 +5,27 @@ function initScene() {
   var scene = new BABYLON.Scene(engine);
   scene.clearColor = new BABYLON.Color3(0.7, 0.7, 0.7);
 
-  var buggyBody = BABYLON.Mesh.CreateBox('body', 2, scene);
+  var buggyBody = BABYLON.Mesh.CreateBox('body', 1, scene);
+
+  var wheelPositions = [
+    new BABYLON.Vector3(1, -1, 1), // rear left
+    new BABYLON.Vector3(1, -1, -1), // rear right
+    new BABYLON.Vector3(-1, -1, -1), // front right
+    new BABYLON.Vector3(-1, -1, 1), // front left?
+  ];
+
+  buggyBody.position = new BABYLON.Vector3(0, 5, 0);
+
+  var wheelMaterial = new BABYLON.StandardMaterial('black', scene);
+  wheelMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+
+  for(var i = 0; i < wheelPositions.length; ++i) {
+    var wheel = BABYLON.Mesh.CreateCylinder('wheel' + i, 0.5, 1, 1, 12, 1, scene, false);
+    wheel.parent = buggyBody;
+    wheel.position = wheelPositions[i];
+    wheel.rotation.z = Math.PI / 2;
+    wheel.material = wheelMaterial;
+  }
 
   var camera = new BABYLON.FollowCamera("ChaseCam", new BABYLON.Vector3(0, 14, -45), scene);
   camera.target = buggyBody;
