@@ -25,6 +25,8 @@ function initScene() {
     wheel.position = wheelPositions[i];
     wheel.rotation.z = Math.PI / 2;
     wheel.material = wheelMaterial;
+
+    wheel.checkCollisions = true;
   }
 
   var camera = new BABYLON.FollowCamera("ChaseCam", new BABYLON.Vector3(0, 14, -45), scene);
@@ -46,6 +48,8 @@ function initScene() {
   var shadowGenerator = new BABYLON.ShadowGenerator(1024, directionalLight);
   shadowGenerator.getShadowMap().renderList.push(buggyBody);
   ground.receiveShadows = true;
+
+  scene.collisionsEnabled = true;
 
   return scene;
 }
